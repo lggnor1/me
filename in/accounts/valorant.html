@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인 페이지</title>
     <style>
+        @media (max-width: 768px) {
+            .home { width: 50px; height: 50px; 
+            } /* 16:9 비율을 유지하도록 이미지의 padding-top을 설정 */ 
+            .content img { 
+                width: 100%; /* 화면 크기에 맞게 너비를 조정 */ 
+                height: auto; /* 높이는 비율을 자동으로 맞추기 */ }
+        }
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
@@ -65,11 +72,6 @@
         pre {
             margin: 0;
         }
-        @media (max-width: 768px) {
-            img {
-            width: 320px;
-            height: 216px;
-            }}
         img {
             width: 960px;
             height: 540px;
@@ -95,7 +97,7 @@
     <div class="content-section">
         <div class="content-header">
             <div class="toggle-button" onclick="toggleContent(this)">&#9654;</div>
-            <h2>asia gold</h2>
+            <h2>asia gold11</h2>
         </div>
         <div class="content">
             <h3>
