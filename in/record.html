@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>기록하고 싶은 것</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.20.0/firebase-storage.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, orderBy, query, serverTimestamp, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.20.0/firebase-storage.js";
+
+        // Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRzA1MC_c1_QWrZHABsLL3wy3uQXRtwUI",
+            authDomain: "my-information-6a910.firebaseapp.com",
+            projectId: "my-information-6a910",
+            storageBucket: "my-information-6a910.appspot.com",
+            messagingSenderId: "1001294749130",
+            appId: "1:1001294749130:web:dd888ffcfb4aa3ceff0333",
+            measurementId: "G-95Z4NZS0P0"
+        };
+
+        // Firebase 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // 기록 저장 함수
+        window.saveRecord = async function(event) {
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('content').value;
+            const fileInput = document.getElementById('fileInput');
+
+            try {
+                let fileUrl = '';
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    // storageRef를 여기에서 정의합니다
+                    const storageRef = ref(storage, `files/${Date.now()}_${file.name}`);
+                    
+                    // 파일을 Firebase Storage에 업로드
+                    const snapshot = await uploadBytes(storageRef, file);
+                    // 업로드한 파일의 다운로드 URL 가져오기
+                    fileUrl = await getDownloadURL(snapshot.ref);
+                    console.log('File uploaded successfully. URL:', fileUrl);
+                }
+
+                // Firestore에 기록 추가
+                const docRef = await addDoc(collection(db, 'records'), {
+                    title: title,
+                    content: content,
+                    fileUrl: fileUrl,
+                    createdAt: serverTimestamp()
+                });
+
+                console.log('Document written with ID: ', docRef.id);
+                alert('성공적으로 기록되었습니다.');
+                document.getElementById('recordForm').reset();
+                document.getElementById('recordFormContainer').style.display = 'none';
+                await loadRecords(); // 새로고침 없이 목록 업데이트
+            } catch (error) {
+                console.error('Error adding document: ', error);
+                alert('오류가 발생했습니다: ' + error.message);
+            }
+        }
+
+        // 기록 목록 로드 함수
+        window.loadRecords = async function() {
+            const recordList = document.getElementById('recordList');
+            recordList.innerHTML = '';  // 기존 목록 초기화
+
+            const q = query(collection(db, 'records'), orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><a href="record_detail.html?id=${doc.id}" target="_blank">${data.title}</a></td>
+                    <td>${new Date(data.createdAt.seconds * 1000).toLocaleString()}</td>
+                `;
+                recordList.appendChild(row);
+            });
+        }
+
+        // 페이지 로드 시 기록 목록 로드
+        document.addEventListener('DOMContentLoaded', () => {
+            loadRecords(); // 페이지 로드 시 기록 목록 로드
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>기록하고 싶은 것</h1>
+
+        <h2>기록 목록</h2>
+        <table id="recordTable">
+            <thead>
+                <tr>
+                    <th>제목</th>
+                    <th>작성일</th>
+                </tr>
+            </thead>
+            <tbody id="recordList"></tbody>
+        </table>
+
+        <!-- 글쓰기 버튼 및 글쓰기 창 -->
+        <button class="write-button" onclick="document.getElementById('recordFormContainer').style.display='block'">글쓰기✏️</button>
+        <div id="recordFormContainer" style="display: none;">
+            <form id="recordForm" onsubmit="saveRecord(event)">
+                <input type="text" id="title" placeholder="제목" required="required">
+                <textarea id="content" placeholder="내용" required="required"></textarea>
+                <input type="file" id="fileInput">
+                <button type="submit">저장</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

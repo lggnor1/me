@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center; /* 수평 중앙 정렬 */
+            align-items: center; /* 수직 중앙 정렬 */
+            height: 100vh; /* 전체 화면 높이 */
+        }
+        .container {
+            width: 60%;
+            height: auto; /* 높이를 자동으로 설정 */
+            overflow: hidden;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .name {
+            font-size: 2em; /* 크기 조정 */
+            margin-bottom: 20px; /* 간격 조정 */
+        }
+        .button-container {
+            display: flex; /* 버튼들을 수평으로 정렬 */
+            justify-content: space-around; /* 버튼 사이의 공간을 균등하게 배분 */
+            flex-wrap: wrap; /* 화면 크기에 따라 줄 바꿈 가능 */
+        }
+        .button {
+            display: inline-block;
+            width: 150px;
+            padding: 15px;
+            margin: 10px;
+            font-size: 18px;
+            color: white;
+            background-color: #1a73e8;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s; /* 배경 색상과 변형 애니메이션 추가 */
+        }
+        .button:hover {
+            background-color: #155a8a;
+            transform: scale(1.05); /* 마우스 오버 시 확대 */
+        }
+        .button:active {
+            transform: scale(0.95); /* 클릭 시 축소 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="name">나</h1>
+        <div class="button-container">
+            <a href="record.html" class="button">기록</a>
+            <a href="privarte.html" class="button">중요한 것</a>
+            <a href="files.html" class="button">파일</a>
+            <a href="ect.html" class="button">기타</a>
+            <a href="portfolio.html" class="button">포트폴리오</a>
+            <a href="accounts/index.html" class="button">ㄱ ㅈ</a>
+        </div>
+    </div>
+</body>
+</html>

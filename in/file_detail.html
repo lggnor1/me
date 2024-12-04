@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파일 상세</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.20.0/firebase-app.js"></script>
+    <script type="module" src="https://www.gstatic.com/firebasejs/9.20.0/firebase-firestore.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCRzA1MC_c1_QWrZHABsLL3wy3uQXRtwUI",
+            authDomain: "my-information-6a910.firebaseapp.com",
+            projectId: "my-information-6a910",
+            storageBucket: "my-information-6a910.appspot.com",
+            messagingSenderId: "1001294749130",
+            appId: "1:1001294749130:web:dd888ffcfb4aa3ceff0333",
+            measurementId: "G-95Z4NZS0P0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        async function loadFileDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get('id');
+
+            if (id) {
+                const fileRef = doc(db, 'files', id);
+                const docSnap = await getDoc(fileRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('fileTitle').textContent = data.title;
+                    document.getElementById('fileContent').textContent = data.content;
+                    if (data.fileUrl) {
+                        const fileLink = document.createElement('a');
+                        fileLink.href = data.fileUrl;
+                        fileLink.textContent = '첨부 파일 다운로드';
+                        fileLink.target = '_blank';
+                        document.getElementById('fileFile').appendChild(fileLink);
+                    }
+                } else {
+                    document.getElementById('fileTitle').textContent = "기록을 찾을 수 없습니다.";
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadFileDetails);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1 id="fileTitle"></h1>
+        <div id="fileContent"></div>
+        <div id="fileFile"></div>
+    </div>
+</body>
+</html>
