@@ -277,6 +277,26 @@
             <div class="content-section">
                 <div class="content-header">
                     <div class="toggle-button" onclick="toggleContent(this)">&#9654;</div>
+                    <h2>Korea_dia&2021(6.0)</h2>
+                </div>
+                <div class="content">
+                    <h3>
+                        <div class="code-container">
+                            <button class="copy-button" onclick="copyCode('code-block-0')">copy</button>
+                            <pre id="code-block-">cyw76615710</pre>
+                        </div>
+                        <div class="code-container">
+                            <button class="copy-button" onclick="copyCode('code-block-0')">copy</button>
+                            <pre id="code-block-">chlduddnd76615710!</pre>
+                        </div>
+                    </h3>
+                    <img src="img/cyw76615710.png" alt="">
+                </div>
+            </div>
+
+            <div class="content-section">
+                <div class="content-header">
+                    <div class="toggle-button" onclick="toggleContent(this)">&#9654;</div>
                     <h2></h2>
                 </div>
                 <div class="content">
@@ -292,13 +312,11 @@
                     </h3>
                     <img src="img/ .png" alt="">
                 </div>
-            </div>
+            </div>  
             
         </div>
     </div>
     <!-- Korea_finish -->
-
-        
 
             <div class="content-section">
                 <div class="content-header">
@@ -320,6 +338,13 @@
                 </div>
             </div>
     <script>
+        const password = prompt("비밀번호를 입력하세요:");
+    if (password === 'xene') {
+        document.getElementById('content').style.display = 'block';
+    } else {
+        alert('잘못된 비밀번호입니다.');
+        document.location.href = ''
+    }
         function toggleContent(button) {
             var content = button.parentElement.nextElementSibling;
             if (content.style.display === "none" || content.style.display === "") {
