@@ -74,5 +74,14 @@
             <a href="accounts/index.html" class="button">ㄱ ㅈ</a>
         </div>
     </div>
+    <script>
+        const password = prompt("비밀번호를 입력하세요:");
+    if (password === '11211') {
+        document.getElementById('content').style.display = 'block';
+    } else {
+        alert('잘못된 비밀번호입니다.');
+        document.location.href = ''
+    }
+    </script>
 </body>
 </html>
